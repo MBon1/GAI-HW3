@@ -45,18 +45,44 @@ public class FormationManager : MonoBehaviour
 
     // Add a new character to the first available slot. 
     // Returns false if no more slots are available.
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    bool AddCharacter(GameObject character)
     {
-        
+        // Find how many slots we have occupied
+        int occupiedSlots = numSlots - slotAssignments.Count;
+
+        // Check if the pattern supports more slots
+        // if pattern.SupportsSlots(occupiedSlots+1);
+        if (occupiedSlots + 1 < numSlots)
+        {
+            // Add a new slot assignment
+            slotAssignments.Add(character);
+
+            // Update the slot assignments and return success
+            UpdateSlotAssignments();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // Removes a character from its slot
+    void RemoveCharacter(GameObject character)
     {
-        
+        // Find Character's slot
+        int slot = slotAssignments.IndexOf(character);
+
+        // Made sure we've found a valid result
+        if (slot >= 0 && slot < numSlots)
+        {
+            slotAssignments.RemoveAt(slot);
+
+            // Update the assignments
+            UpdateSlotAssignments();
+        }
     }
+
+    // Write new slot locations to each character
+
 }
