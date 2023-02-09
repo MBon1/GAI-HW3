@@ -12,7 +12,8 @@ public class FormationManager : MonoBehaviour
         int slotNumber;
     }*/
 
-    [SerializeField] int numSlots = 12;
+    //[SerializeField] int numSlots = 12;
+    [SerializeField] int numSlots = 13;
 
     // Holds a list of slot assignments
     //[SerializeField] List<SlotAssignment> slotAssignments;
@@ -84,5 +85,43 @@ public class FormationManager : MonoBehaviour
     }
 
     // Write new slot locations to each character
+    // Assumes slot 0 is the leader
+    void UpdateSlots()
+    {
+        if (slotAssignments.Count == 0)
+        {
+            return;
+        }
 
+        // Find the anchor point
+        GameObject anchor = slotAssignments[0];
+
+        // Get orientation of the anchor as a matrix
+        Vector3 orientationMatrix = anchor.transform.rotation.eulerAngles;
+
+        // Go through each character in turn
+        for (int i = 1; i < slotAssignments.Count; i++)
+        {
+            GameObject target = slotAssignments[i];
+            // Ask for the location of the slot relative to the anchro Point.
+            Vector3 distance = target.transform.position - anchor.transform.position;
+            Vector3 relativePosition = Vector3.zero;
+            relativePosition.x = Vector3.Dot(distance, anchor.transform.right.normalized);
+            relativePosition.y = Vector3.Dot(distance, anchor.transform.up.normalized);
+            relativePosition.z = Vector3.Dot(distance, anchor.transform.forward.normalized);
+
+            // Relative rotation
+            Quaternion relativeRotation = Quaternion.Inverse(anchor.transform.rotation) * target.transform.rotation;
+
+            // Transform it by the anchor point's position and orientation
+            target.transform.position = Vector3.Scale(relativePosition, orientationMatrix) + anchor.transform.position;
+            target.transform.rotation = Quaternion.Euler(anchor.transform.rotation.eulerAngles + relativeRotation.eulerAngles);
+
+            // Add drift component
+            target.transform.position -= new Vector3(driftOffsetPosition.x, driftOffsetPosition.y, 0);
+            Vector3 newRotation = target.transform.rotation.eulerAngles;
+            newRotation.z -= driftOffsetOrientation;
+            target.transform.rotation = Quaternion.Euler(newRotation);
+        }
+    }
 }
