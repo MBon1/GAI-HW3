@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract class FormationPattern : MonoBehaviour
+public abstract class FormationPattern : MonoBehaviour
 {
     // Holds the number of slots currently in the pattern.
     // This is updated in the getDriftOffset method.
     // It may be a fixed value.
-    int numberOfSlots;
+    public int numberOfSlots;
 
     // Calculates the drift offset when characters are in
     // given set of slots
