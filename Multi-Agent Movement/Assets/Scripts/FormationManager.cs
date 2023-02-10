@@ -116,6 +116,8 @@ public class FormationManager : MonoBehaviour
             // Transform it by the anchor point's position and orientation
             target.transform.position = Vector3.Scale(relativePosition, orientationMatrix) + anchor.transform.position;
             target.transform.rotation = Quaternion.Euler(anchor.transform.rotation.eulerAngles + relativeRotation.eulerAngles);
+            // Relative Position Equation: https://answers.unity.com/questions/346671/relative-position-1.html
+            // Relative Rotation Equation: https://answers.unity.com/questions/35541/problem-finding-relative-rotation-from-one-quatern.html
 
             // Add drift component
             target.transform.position -= new Vector3(driftOffsetPosition.x, driftOffsetPosition.y, 0);
