@@ -36,6 +36,15 @@ public class NewFormationManager : MonoBehaviour
         UpdateFormation();
     }
 
+    public void RemoveAgent(GameObject agent)
+    {
+        if (allAgents.Remove(agent))
+        {
+            Destroy(agent);
+        }
+
+    }
+
     void UpdateFormation()
     {
         SetGoalPos();
@@ -62,6 +71,13 @@ public class NewFormationManager : MonoBehaviour
 
     void UpdateAgentsScalableCircle()
     {
+        if (allAgents.Count == 1)
+        {
+            allAgents[0].transform.position = this.transform.position;
+            allAgents[0].transform.rotation = this.transform.rotation;
+            return;
+        }
+
         float numSlots = allAgents.Count;
         float radius = agentWidth / Mathf.Sin(Mathf.PI / numSlots);
         float angleStep = 360.0f / allAgents.Count;
