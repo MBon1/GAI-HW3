@@ -106,6 +106,10 @@ public class FormationManager : MonoBehaviour
         for (int i = 0; i < slotAssignments.Count; i++)
         {
             GameObject target = slotAssignments[i];
+            if (target == anchor)
+            {
+                continue;
+            }
             // Ask for the location of the slot relative to the anchro Point.
             Vector3 distance = target.transform.position - anchor.transform.position;
             Vector3 relativePosition = Vector3.zero;
