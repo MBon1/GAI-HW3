@@ -89,7 +89,7 @@ public class NewFormationManager : MonoBehaviour
 
         float spacing = 2.0f;
         float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
-        float forwardAngle = this.transform.rotation.eulerAngles.z;
+        float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
 
         Vector3 pos = transform.position;
 
@@ -99,6 +99,8 @@ public class NewFormationManager : MonoBehaviour
             float y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
 
             allAgents[i].transform.position = new Vector2(x, y);
+            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+
             relativePos -= 2.0f;
         }
     }
