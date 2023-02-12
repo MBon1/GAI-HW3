@@ -64,8 +64,8 @@ public class NewFormationManager : MonoBehaviour
     {
         float numSlots = allAgents.Count;
         float radius = agentWidth / Mathf.Sin(Mathf.PI / numSlots);
-        float angleStep = 360 / allAgents.Count;
-        float currentAngle = 0;
+        float angleStep = 360.0f / allAgents.Count;
+        float currentAngle = 90.0f + this.transform.rotation.eulerAngles.z;
 
         Vector3 pos = transform.position;
         

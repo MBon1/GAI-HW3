@@ -859,9 +859,12 @@ MonoBehaviour:
   agentPrefab: {fileID: 3292435111002944234, guid: d1a9f633060bb774e9cb8e2a8fff36e4, type: 3}
   numAgents: 12
   allAgents: []
+  leader: {fileID: 0}
   goalPos: {x: 0, y: 0, z: 0}
-  formation: 1
+  formation: 0
   agentWidth: 1
+  path:
+    path: []
 --- !u!4 &761280731
 Transform:
   m_ObjectHideFlags: 0
