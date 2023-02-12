@@ -19,6 +19,9 @@ public class FormationManager : MonoBehaviour
     //[SerializeField] List<SlotAssignment> slotAssignments;
     [SerializeField] List<GameObject> slotAssignments;
 
+    // Find the anchor point
+    [SerializeField] GameObject anchor;
+
     // Hold position and orientation represeting
     // the drift offset for the currently filled slots.
     [SerializeField] Vector2 driftOffsetPosition;
@@ -94,13 +97,13 @@ public class FormationManager : MonoBehaviour
         }
 
         // Find the anchor point
-        GameObject anchor = slotAssignments[0];
+        //GameObject anchor = slotAssignments[0];
 
         // Get orientation of the anchor as a matrix
         Vector3 orientationMatrix = anchor.transform.rotation.eulerAngles;
 
         // Go through each character in turn
-        for (int i = 1; i < slotAssignments.Count; i++)
+        for (int i = 0; i < slotAssignments.Count; i++)
         {
             GameObject target = slotAssignments[i];
             // Ask for the location of the slot relative to the anchro Point.
