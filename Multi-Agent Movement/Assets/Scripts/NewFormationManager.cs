@@ -56,6 +56,10 @@ public class NewFormationManager : MonoBehaviour
         {
             UpdateAgentsScalableLine();
         }
+        if (formation == Formation.Wedge)
+        {
+            UpdateAgentsScalableWedge();
+        }
     }
 
     void SetGoalPos()
@@ -104,6 +108,31 @@ public class NewFormationManager : MonoBehaviour
             return;
         }
 
+        float spacing = 2.0f;
+        float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
+        float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
+
+        Vector3 pos = transform.position;
+
+        for (int i = 0; i < allAgents.Count; i++)
+        {
+            float x = pos.x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle) * relativePos);
+            float y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
+
+            allAgents[i].transform.position = new Vector2(x, y);
+            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+
+            relativePos -= 2.0f;
+        }
+    }
+
+    void UpdateAgentsScalableWedge()
+    {
+        if (allAgents.Count == 0)
+        {
+            return;
+        }
+
         float spacing = 1.0f;
         float relativePos = -((float)(allAgents.Count - 1) * spacing);
         float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
@@ -119,7 +148,7 @@ public class NewFormationManager : MonoBehaviour
                 x = pos.x;
                 y = pos.y;
             }*/
-            if (i%2==0)
+            if (i % 2 == 0)
             {
                 x = pos.x - (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
                 y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
@@ -128,7 +157,7 @@ public class NewFormationManager : MonoBehaviour
             {
                 x = pos.x + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
                 y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos) - 1.0f;
-                
+
             }
 
             allAgents[i].transform.position = new Vector2(x, y);
@@ -140,8 +169,11 @@ public class NewFormationManager : MonoBehaviour
 }
 
 
+
+
 public enum Formation
 {
     Circle,
-    Line
+    Line,
+    Wedge
 }
