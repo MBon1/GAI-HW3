@@ -729,6 +729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Prey
       objectReference: {fileID: 0}
+    - target: {fileID: 3292435111002944234, guid: d1a9f633060bb774e9cb8e2a8fff36e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3292435111002944237, guid: d1a9f633060bb774e9cb8e2a8fff36e4, type: 3}
       propertyPath: movement
       value: 6
@@ -1475,7 +1479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1600151101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1845,6 +1849,10 @@ PrefabInstance:
     - target: {fileID: 3292435111002944234, guid: d1a9f633060bb774e9cb8e2a8fff36e4, type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 3292435111002944234, guid: d1a9f633060bb774e9cb8e2a8fff36e4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3292435111002944237, guid: d1a9f633060bb774e9cb8e2a8fff36e4, type: 3}
       propertyPath: movement
