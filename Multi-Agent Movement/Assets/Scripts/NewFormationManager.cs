@@ -10,6 +10,9 @@ public class NewFormationManager : MonoBehaviour
     public List<GameObject> allAgents;
     public Vector3 goalPos = Vector3.zero;
 
+    [Header("Formation Pattern")]
+    public Formation formation = Formation.Line;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +38,14 @@ public class NewFormationManager : MonoBehaviour
     void UpdateFormation()
     {
         SetGoalPos();
-        UpdateAgentsScalableCircle();
+        if (formation == Formation.Circle)
+        {
+            UpdateAgentsScalableCircle();
+        }
+        if (formation == Formation.Line)
+        {
+            UpdateAgentsScalableLine();
+        }
     }
 
     void SetGoalPos()
@@ -69,4 +79,34 @@ public class NewFormationManager : MonoBehaviour
             currentAngle += angleStep;
         }
     }
+
+    void UpdateAgentsScalableLine()
+    {
+        if (allAgents.Count == 0)
+        {
+            return;
+        }
+
+        float spacing = 2.0f;
+        float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
+        float forwardAngle = this.transform.rotation.z;
+
+        Vector3 pos = transform.position;
+
+        for (int i = 0; i < allAgents.Count; i++)
+        {
+            float x = pos.x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle) * relativePos);
+            float y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
+
+            allAgents[i].transform.position = new Vector2(x, y);
+            relativePos -= 2.0f;
+        }
+    }
+}
+
+
+public enum Formation
+{
+    Circle,
+    Line
 }
