@@ -1120,7 +1120,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761280729}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: 10, z: 0}
+  m_LocalPosition: {x: -8.5, y: 24.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1141,10 +1141,12 @@ MonoBehaviour:
   movement: 11
   obstacleAvoidance: 0
   defaultOA: 0
-  targets: []
-  ingoredObjects: []
-  maxSpeed: 2
-  maxAcceleration: 3.25
+  targets:
+  - {fileID: 761280729}
+  ingoredObjects:
+  - {fileID: 761280729}
+  maxSpeed: 5
+  maxAcceleration: 3.125
   maxAngularAcceleration: 90
   maxRotation: 56.25
   targetRadius: 1
@@ -1173,14 +1175,15 @@ MonoBehaviour:
     - {fileID: 1456823775}
   currentParam: 0
   predictTime: 0.1
+  pathArrivalRadius: 10
   forwardPathTraversal: 1
   timeToTarget: 0.1
   alignmentTimeToTarget: 0.1
-  targetPointPrefab: {fileID: 0}
+  targetPointPrefab: {fileID: 4730570070989178569, guid: 28735ad5affdbb5499bdd83d52ff57c7, type: 3}
   targetPoint: {fileID: 0}
-  arriveRadiusPrefab: {fileID: 0}
+  arriveRadiusPrefab: {fileID: 3847945467411249509, guid: 83ba211dc2e21294bb28cd044fd9bab3, type: 3}
   arriveRadius: {fileID: 0}
-  pathNodes: {fileID: 0}
+  pathNodes: {fileID: 1197394656}
   behaviorText: {fileID: 0}
   avoidDistance: 7
   lookAhead: 10

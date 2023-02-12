@@ -73,7 +73,7 @@ public class Movement_3 : MonoBehaviour
     // Holds the time in the future to predict the character's position
     [SerializeField] float predictTime = 0.1f;
     // Arrival distance between path node and character
-    float pathArrivalRadius = 5;
+    [SerializeField] float pathArrivalRadius = 5;
     // Which direction character is following the path
     [SerializeField] bool forwardPathTraversal = true;
 
@@ -656,11 +656,10 @@ public class Movement_3 : MonoBehaviour
     {
         // Check if the current node index is greater than the
         // the number of nodes in the path
-        // Set index to path len - 1 and set it to traverse path in descending order
+        // If so, do nothing
         if (currentParam >= path.path.Length)
         {
-            currentParam = path.path.Length - 2;
-            forwardPathTraversal = !forwardPathTraversal;
+            return new SteeringOutput();
         }
 
         // Check if the current node index is negative
@@ -669,35 +668,6 @@ public class Movement_3 : MonoBehaviour
         {
             currentParam = 0;
             forwardPathTraversal = !forwardPathTraversal;
-        }
-
-        // Check if character is closer to another node further along in the path
-        // If so, set the current node to that one
-        if (forwardPathTraversal)
-        {
-            float distance = -1;
-            for (int i = currentParam; i < path.path.Length; i++)
-            {
-                float dist = Vector3.Distance(character.position, path.path[i].position);
-                if (distance < 0 || dist < distance)
-                {
-                    distance = dist;
-                    currentParam = i;
-                }
-            }
-        }
-        else
-        {
-            float distance = -1;
-            for (int i = currentParam; i >= 0; i--)
-            {
-                float dist = Vector3.Distance(character.position, path.path[i].position);
-                if (distance < 0 || dist < distance)
-                {
-                    distance = dist;
-                    currentParam = i;
-                }
-            }
         }
 
         target.position = path.path[currentParam].position;
