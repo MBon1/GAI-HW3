@@ -12,6 +12,7 @@ public class NewFormationManager : MonoBehaviour
 
     [Header("Formation Pattern")]
     public Formation formation = Formation.Line;
+    public float agentWidth = 1;
 
 
     // Start is called before the first frame update
@@ -62,7 +63,7 @@ public class NewFormationManager : MonoBehaviour
     void UpdateAgentsScalableCircle()
     {
         float numSlots = allAgents.Count;
-        float radius = 1 / Mathf.Sin(Mathf.PI / numSlots);
+        float radius = agentWidth / Mathf.Sin(Mathf.PI / numSlots);
         float angleStep = 360 / allAgents.Count;
         float currentAngle = 0;
 
