@@ -686,13 +686,8 @@ public class Movement_3 : MonoBehaviour
                 currentParam--;
             }
         }
-        // Arrive or seek to next node
-        if (currentParam == 0 || currentParam == path.path.Length - 1)
-        {
-            return GetArriveSteering();
-        }
-        DestroyArriveRadius();
-        return GetSeekSteering();
+
+        return GetArriveSteering();
     }
     #endregion
 

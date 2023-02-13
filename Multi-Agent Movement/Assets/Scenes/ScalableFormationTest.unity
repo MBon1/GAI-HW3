@@ -1175,7 +1175,7 @@ MonoBehaviour:
     - {fileID: 1456823775}
   currentParam: 0
   predictTime: 0.1
-  pathArrivalRadius: 10
+  pathArrivalRadius: 5
   forwardPathTraversal: 1
   timeToTarget: 0.1
   alignmentTimeToTarget: 0.1
