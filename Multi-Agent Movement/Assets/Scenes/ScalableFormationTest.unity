@@ -1087,6 +1087,7 @@ GameObject:
   - component: {fileID: 761280730}
   - component: {fileID: 761280733}
   - component: {fileID: 761280732}
+  - component: {fileID: 761280734}
   m_Layer: 0
   m_Name: FormationManager
   m_TagString: Untagged
@@ -1114,6 +1115,7 @@ MonoBehaviour:
   agentTargetPositions: []
   formation: 1
   agentWidth: 1
+  agentAttatchmentDistance: 0.5
 --- !u!4 &761280731
 Transform:
   m_ObjectHideFlags: 0
@@ -1140,17 +1142,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78003c05bb6cd6149bd780a9757e7b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: 0
+  movement: 11
   obstacleAvoidance: 0
   defaultOA: 0
   targets:
   - {fileID: 761280729}
   ingoredObjects:
   - {fileID: 761280729}
-  maxSpeed: 5
-  maxAcceleration: 3.125
-  maxAngularAcceleration: 90
-  maxRotation: 56.25
+  maxSpeed: 1
+  maxAcceleration: 0.5
+  maxAngularAcceleration: 22.5
+  maxRotation: 14.0625
   targetRadius: 1
   slowRadius: 6
   targetAlignRadius: 1.5
@@ -1177,10 +1179,11 @@ MonoBehaviour:
     - {fileID: 1456823775}
   currentParam: 0
   predictTime: 0.1
-  pathArrivalRadius: 5
+  pathArrivalRadius: 3
   forwardPathTraversal: 1
   timeToTarget: 0.1
   alignmentTimeToTarget: 0.1
+  hw1DebugEnabled: 1
   targetPointPrefab: {fileID: 4730570070989178569, guid: 28735ad5affdbb5499bdd83d52ff57c7, type: 3}
   targetPoint: {fileID: 0}
   arriveRadiusPrefab: {fileID: 3847945467411249509, guid: 83ba211dc2e21294bb28cd044fd9bab3, type: 3}
@@ -1196,7 +1199,6 @@ MonoBehaviour:
   lrMaterial: {fileID: 0}
   lrWidth: 0.25
   lines: []
-  detatchDistance: 0.5
 --- !u!50 &761280733
 Rigidbody2D:
   serializedVersion: 4
@@ -1218,6 +1220,57 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!212 &761280734
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761280729}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: f568d27b9f7ccbf44a73cd0bca30ad36, type: 3}
+  m_Color: {r: 0.057685614, g: 1, b: 0, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.64, y: 0.64}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1090171712
 GameObject:
   m_ObjectHideFlags: 0
