@@ -97,9 +97,11 @@ MonoBehaviour:
     - {fileID: 0}
   currentParam: 0
   predictTime: 0.1
+  pathArrivalRadius: 5
   forwardPathTraversal: 1
   timeToTarget: 0.1
   alignmentTimeToTarget: 0.1
+  hw1DebugEnabled: 0
   targetPointPrefab: {fileID: 4730570070989178569, guid: 28735ad5affdbb5499bdd83d52ff57c7, type: 3}
   targetPoint: {fileID: 0}
   arriveRadiusPrefab: {fileID: 3847945467411249509, guid: 83ba211dc2e21294bb28cd044fd9bab3, type: 3}
@@ -115,6 +117,7 @@ MonoBehaviour:
   lrMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   lrWidth: 0.25
   lines: []
+  detatchDistance: 0.5
 --- !u!58 &3292435111002944239
 CircleCollider2D:
   m_ObjectHideFlags: 0

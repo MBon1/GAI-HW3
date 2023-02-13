@@ -16,8 +16,8 @@ public class Movement_3 : MonoBehaviour
     bool reachedTarget = false;
 
     // Target
-    [SerializeField] List<GameObject> targets = null;
-    [SerializeField] List<GameObject> ingoredObjects = null;
+    public List<GameObject> targets = new List<GameObject>();
+    public List<GameObject> ingoredObjects = new List<GameObject>();
 
     // Holds the kinematic data for the character and target
     Rigidbody2D characterRb;
@@ -83,6 +83,7 @@ public class Movement_3 : MonoBehaviour
     [SerializeField] float alignmentTimeToTarget = 0.1f;
 
     [Header("Movement Visualization (HW 1)")]
+    public bool hw1DebugEnabled = false;
     [SerializeField] GameObject targetPointPrefab;
     [SerializeField] GameObject targetPoint;
     [SerializeField] GameObject arriveRadiusPrefab;
@@ -127,7 +128,7 @@ public class Movement_3 : MonoBehaviour
         prevObstacleAvoidance = obstacleAvoidance;
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         for (int i = lines.Count - 1; i >= 0; i--)
         {
@@ -746,7 +747,7 @@ public class Movement_3 : MonoBehaviour
         {
             if (hits[j].transform != null)
             {
-                if (hits[j].transform.gameObject != targetGO)
+                if (targetGO != null && hits[j].transform.gameObject != targetGO)
                 {
                     normals += hits[j].normal;
                     numNormals++;
@@ -1003,6 +1004,22 @@ public class Movement_3 : MonoBehaviour
     }
 
 
+    // Checks if the the agent is too far from its target
+    // If so, tries to go to the target
+    public bool Detatch(float detatchDistance)
+    {
+        if (targets.Count > 0 && Mathf.Abs(Vector3.Distance(this.transform.position, targets[0].transform.position)) >= detatchDistance)
+        {
+            movement = Movement_3.MovementOperation.Arrive;     // May want to revisit this and use pursue instead
+            return true;
+        }
+
+        // Need to consider ray casting somewhere here
+
+        DestroyArriveRadius();  // In case one was drawn
+        movement = Movement_3.MovementOperation.None;
+        return false;
+    }
 
 
 
@@ -1022,6 +1039,11 @@ public class Movement_3 : MonoBehaviour
     // Draw the target point that the character will move to/from
     void DrawTargetPoint(Vector3 position)
     {
+        if (!hw1DebugEnabled)
+        {
+            return;
+        }
+
         // Draw Target Point
         if (targetPointPrefab != null)
         {
@@ -1037,6 +1059,12 @@ public class Movement_3 : MonoBehaviour
     // Visualize the arrive radius around a given point
     void DrawArriveRadius(Vector3 position, float radius)
     {
+        if (!hw1DebugEnabled)
+        {
+            DestroyArriveRadius();
+            return;
+        }
+
         if (arriveRadius == null && arriveRadiusPrefab != null)
         {
             arriveRadius = Instantiate(arriveRadiusPrefab);
@@ -1044,6 +1072,8 @@ public class Movement_3 : MonoBehaviour
 
         arriveRadius.transform.localScale = new Vector3(radius, radius, 1);
         arriveRadius.transform.position = position;
+
+        Debug.Log(this.name + " drew");
     }
 
     // Destroy the arrive radius visualization if it exists
@@ -1058,6 +1088,11 @@ public class Movement_3 : MonoBehaviour
     // Display path for character to follow
     void ShowPath(bool show)
     {
+        if (!hw1DebugEnabled)
+        {
+            return;
+        }
+
         if (pathNodes == null)
             return;
         pathNodes.SetActive(show);

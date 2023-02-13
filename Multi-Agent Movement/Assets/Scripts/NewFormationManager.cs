@@ -7,27 +7,38 @@ public class NewFormationManager : MonoBehaviour
     public static NewFormationManager FM;
     public GameObject agentPrefab;
     public int numAgents = 12;
-    public List<GameObject> allAgents;
+    public List<GameObject> allAgents = new List<GameObject>();
     public Vector3 goalPos = Vector3.zero;
+
+    [Header("Target Positions")]
+    public GameObject agentTargetPrefab;
+    public List<GameObject> agentTargetPositions = new List<GameObject>();
 
     [Header("Formation Pattern")]
     public Formation formation = Formation.Line;
+    Formation lastFormation = Formation.None;
     public float agentWidth = 1;
+    public float agentAttatchmentDistance = 0.5f;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Vector3 pos = this.transform.position;
-        allAgents = new List<GameObject>();
         for (int i = 0; i < numAgents; i++)
         {
             allAgents.Add(Instantiate(agentPrefab, pos, Quaternion.identity));
+            allAgents[i].name = "Agent " + i;
+            agentTargetPositions.Add(Instantiate(agentTargetPrefab, pos, Quaternion.identity));
+            agentTargetPositions[i].name = "Target " + i;
+
+            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            movement.targets.Add(agentTargetPositions[i]);
         }
 
         FM = this;
 
-        UpdateFormation();
+        UpdateFormation(true);
     }
 
     // Update is called once per frame
@@ -38,27 +49,33 @@ public class NewFormationManager : MonoBehaviour
 
     public void RemoveAgent(GameObject agent)
     {
+        int index = allAgents.IndexOf(agent);
         if (allAgents.Remove(agent))
         {
             Destroy(agent);
+            Destroy(agentTargetPositions[index]);
         }
-
     }
 
-    void UpdateFormation()
+    void UpdateFormation(bool ignoreDetatchment = false)
     {
         SetGoalPos();
         if (formation == Formation.Circle)
         {
-            UpdateAgentsScalableCircle();
+            UpdateAgentsScalableCircle(ignoreDetatchment);
         }
         if (formation == Formation.Line)
         {
-            UpdateAgentsScalableLine();
+            UpdateAgentsScalableLine(ignoreDetatchment);
         }
         if (formation == Formation.Wedge)
         {
-            UpdateAgentsScalableWedge();
+            UpdateAgentsScalableWedge(ignoreDetatchment);
+        }
+
+        if (formation != lastFormation)
+        {
+            lastFormation = formation;
         }
     }
 
@@ -73,7 +90,7 @@ public class NewFormationManager : MonoBehaviour
     }
 
 
-    void UpdateAgentsScalableCircle()
+    void UpdateAgentsScalableCircle(bool ignoreDetatchment = false)
     {
         if (allAgents.Count == 1)
         {
@@ -93,15 +110,24 @@ public class NewFormationManager : MonoBehaviour
         {
             float x = pos.x + radius * Mathf.Cos(Mathf.Deg2Rad * currentAngle);
             float y = pos.y + radius * Mathf.Sin(Mathf.Deg2Rad * currentAngle);
+            Vector2 newPos = new Vector2(x, y);
 
-            allAgents[i].transform.position = new Vector2(x, y);
-            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle - 90));
+            agentTargetPositions[i].transform.position = newPos;
+
+            // Check distance between agent's position and its taret's position
+            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
+            if (ignoreDetatchment || notDetatched)
+            {
+                allAgents[i].transform.position = newPos;
+                allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle - 90));
+            }
 
             currentAngle += angleStep;
         }
     }
 
-    void UpdateAgentsScalableLine()
+    void UpdateAgentsScalableLine(bool ignoreDetatchment = false)
     {
         if (allAgents.Count == 0)
         {
@@ -118,15 +144,24 @@ public class NewFormationManager : MonoBehaviour
         {
             float x = pos.x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle) * relativePos);
             float y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
+            Vector2 newPos = new Vector2(x, y);
 
-            allAgents[i].transform.position = new Vector2(x, y);
-            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+            agentTargetPositions[i].transform.position = newPos;
+
+            // Check distance between agent's position and its taret's position
+            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
+            if (ignoreDetatchment || notDetatched)
+            {
+                allAgents[i].transform.position = newPos;
+                allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+            }
 
             relativePos -= 2.0f;
         }
     }
 
-    void UpdateAgentsScalableWedge()
+    void UpdateAgentsScalableWedge(bool ignoreDetatchment = false)
     {
         if (allAgents.Count == 0)
         {
@@ -160,10 +195,20 @@ public class NewFormationManager : MonoBehaviour
 
             }
 
-            allAgents[i].transform.position = new Vector2(x, y);
-            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
-            relativePos += 1.0f;
+            Vector2 newPos = new Vector2(x, y);
 
+            agentTargetPositions[i].transform.position = newPos;
+
+            // Check distance between agent's position and its taret's position
+            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
+            if (ignoreDetatchment || notDetatched)
+            {
+                allAgents[i].transform.position = newPos;
+            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+            }
+
+            relativePos += 1.0f;
         }
     }
 }
@@ -173,6 +218,7 @@ public class NewFormationManager : MonoBehaviour
 
 public enum Formation
 {
+    None, 
     Circle,
     Line,
     Wedge
