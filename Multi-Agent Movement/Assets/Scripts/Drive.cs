@@ -17,6 +17,21 @@ public class Drive : MonoBehaviour
         rb = this.GetComponent<Rigidbody2D>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            Time.timeScale = 4;
+            Debug.LogWarning(Time.timeScale);
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            Time.timeScale = 1;
+            Debug.LogWarning(Time.timeScale);
+        }
+    }
+
     void FixedUpdate()
     {
         // Get the horizontal and vertical axis.

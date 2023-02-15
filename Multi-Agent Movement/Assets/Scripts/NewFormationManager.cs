@@ -47,13 +47,13 @@ public class NewFormationManager : MonoBehaviour
         UpdateFormation();
     }
 
-    void OnTriggerEnter2D(Collider2D Other) {
+    /*void OnTriggerEnter2D(Collider2D Other) {
         formation = Formation.Line;
     }
 
     void OnTriggerExit2D(Collider2D Other) {
         formation = Formation.Circle;
-    }
+    }*/
 
     public void RemoveAgent(GameObject agent)
     {
