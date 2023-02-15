@@ -44,7 +44,14 @@ public class Drive : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Agent"))
         {
-            formationManager.RemoveAgent(collision.gameObject);
+            if (formationManager.allAgents.Contains(collision.gameObject))
+            {
+                formationManager.RemoveAgent(collision.gameObject);
+            }
+            else
+            {
+                Destroy(collision.gameObject);
+            }
         }
     }
 }
