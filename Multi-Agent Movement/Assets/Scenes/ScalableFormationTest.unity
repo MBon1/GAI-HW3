@@ -1326,8 +1326,8 @@ MonoBehaviour:
   pathNodes: {fileID: 1197394656}
   behaviorText: {fileID: 0}
   rayCastAngle: 30
-  avoidDistance: 7
-  lookAhead: 10
+  avoidDistance: 5.25
+  lookAhead: 7.5
   coneAngle: 60
   coneLength: 10
   targetsRadi: 0.5
