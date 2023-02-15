@@ -10,6 +10,8 @@ public class Drive : MonoBehaviour
     public float rotationSpeed = 100.0f;
     public float currentSpeed = 0;
 
+    public NewFormationManager formationManager;
+
     private void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -36,5 +38,13 @@ public class Drive : MonoBehaviour
         // Rotate around our y-axis
         //transform.Rotate(0, rotation, 0);
         rb.rotation -= rotation;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Agent"))
+        {
+            formationManager.RemoveAgent(collision.gameObject);
+        }
     }
 }
