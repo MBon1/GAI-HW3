@@ -21,7 +21,7 @@ public class Drive : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.RightBracket))
         {
-            Time.timeScale = 4;
+            Time.timeScale = 8;
             Debug.LogWarning(Time.timeScale);
         }
 

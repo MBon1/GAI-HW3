@@ -1073,7 +1073,7 @@ public class Movement_3 : MonoBehaviour
         arriveRadius.transform.localScale = new Vector3(radius, radius, 1);
         arriveRadius.transform.position = position;
 
-        Debug.Log(this.name + " drew");
+        //Debug.Log(this.name + " drew");
     }
 
     // Destroy the arrive radius visualization if it exists

@@ -22,7 +22,6 @@ public class FormationChangeTrigger : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Formation Manager"))
         {
-            Debug.LogError("Object collided! " + collision.gameObject.name);
             collision.gameObject.GetComponent<NewFormationManager>().formation = enterFormation;
         }
     }

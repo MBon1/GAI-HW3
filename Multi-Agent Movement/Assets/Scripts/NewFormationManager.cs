@@ -143,7 +143,8 @@ public class NewFormationManager : MonoBehaviour
         }
 
         float spacing = 2.0f;
-        float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
+        //float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
+        float relativePos = 1;
         float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
 
         Vector3 pos = transform.position;
