@@ -1613,8 +1613,10 @@ MonoBehaviour:
   numAgents: 12
   allAgents: []
   goalPos: {x: 0, y: 0, z: 0}
+  movement_3: {fileID: 1240569167}
+  outsourceMovement: 1
   agentTargetPrefab: {fileID: 4654537302800718906, guid: 5336b0186b71b2b4cad0f2b95bbed371, type: 3}
-  formation: 1
+  formation: 3
   agentWidth: 1
   agentAttatchmentDistance: 0.5
 --- !u!58 &1240569165
@@ -1744,15 +1746,17 @@ MonoBehaviour:
   arriveRadius: {fileID: 0}
   pathNodes: {fileID: 123238476}
   behaviorText: {fileID: 0}
+  rayCastAngle: 30
   avoidDistance: 7
   lookAhead: 10
   coneAngle: 60
   coneLength: 10
   targetsRadi: 0.5
-  lrPrefab: {fileID: 0}
+  lrPrefab: {fileID: 1484012942565669961, guid: 07f30089f84a2cd4d8c7b62199000141, type: 3}
   lrMaterial: {fileID: 0}
   lrWidth: 0.25
   lines: []
+  outsource: {fileID: 0}
 --- !u!50 &1240569168
 Rigidbody2D:
   serializedVersion: 4

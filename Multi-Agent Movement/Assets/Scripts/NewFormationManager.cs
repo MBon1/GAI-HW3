@@ -192,33 +192,40 @@ public class NewFormationManager : MonoBehaviour
             return;
         }
 
-        float spacing = 1.0f;
-        float relativePos = -((float)(allAgents.Count - 1) * spacing);
+        float relativePos = -5;
         float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
 
         Vector3 pos = transform.position;
+        float x;
+        float y;
+        float odd_x = pos.x, odd_y = pos.y, even_x = pos.x, even_y = pos.y;
 
         for (int i = 0; i < allAgents.Count; i++)
         {
-            float x;
-            float y;
-            /*if (i == 0)
+            if (i == 0)
             {
-                x = pos.x;
-                y = pos.y;
-            }*/
-            if (i % 2 == 0)
-            {
-                x = pos.x - (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
+                x = pos.x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle) * relativePos);
                 y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
+                even_x = x;
+                even_y = y;
+                odd_x = x;
+                odd_y = y;
+                relativePos = -2;
+            }
+            else if (i % 2 ==0)
+            {
+                x = even_x + (Mathf.Cos((Mathf.Deg2Rad * forwardAngle) + 45) * relativePos);
+                y = even_y + (Mathf.Sin((Mathf.Deg2Rad * forwardAngle) + 45) * relativePos);
+                even_x = x;
+                even_y = y;
             }
             else
             {
-                x = pos.x + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
-                y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos) - 1.0f;
-
+                x = odd_x + (Mathf.Cos((Mathf.Deg2Rad * forwardAngle) - 45) * relativePos);
+                y = odd_y + (Mathf.Sin((Mathf.Deg2Rad * forwardAngle) - 45) * relativePos);
+                odd_x = x;
+                odd_y = y;
             }
-
             Vector2 newPos = new Vector2(x, y);
 
             agentTargetPositions[allAgents[i]].transform.position = newPos;
@@ -229,10 +236,8 @@ public class NewFormationManager : MonoBehaviour
             if (ignoreDetatchment || notDetatched)
             {
                 allAgents[i].transform.position = newPos;
-            allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+                allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
             }
-
-            relativePos += 1.0f;
         }
     }
 }
