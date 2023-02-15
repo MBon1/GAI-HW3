@@ -9,6 +9,8 @@ public class NewFormationManager : MonoBehaviour
     public int numAgents = 12;
     public List<GameObject> allAgents = new List<GameObject>();
     public Vector3 goalPos = Vector3.zero;
+    public Movement_3 movement_3;
+    public bool outsourceMovement = false;
 
     [Header("Target Positions")]
     public GameObject agentTargetPrefab;
@@ -36,6 +38,11 @@ public class NewFormationManager : MonoBehaviour
             movement.targets.Add(agentTargetPositions[allAgents[i]]);
         }
 
+        if (numAgents > 0 && outsourceMovement)
+            movement_3.outsource = allAgents[0].GetComponent<Movement_3>();
+        else
+            movement_3.outsource = null;
+
         FM = this;
 
         UpdateFormation(true);
@@ -62,6 +69,14 @@ public class NewFormationManager : MonoBehaviour
         {
             Destroy(agentTargetPositions[agent]);
             Destroy(agent);
+            if (allAgents.Count > 0 && outsourceMovement)
+            {
+                movement_3.outsource = allAgents[0].GetComponent<Movement_3>();
+            }
+            else
+            {
+                movement_3.outsource = null;
+            }
         }
     }
 

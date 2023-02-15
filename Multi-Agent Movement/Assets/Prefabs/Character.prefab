@@ -117,6 +117,7 @@ MonoBehaviour:
   lrMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   lrWidth: 0.25
   lines: []
+  outsource: {fileID: 0}
 --- !u!58 &3292435111002944239
 CircleCollider2D:
   m_ObjectHideFlags: 0

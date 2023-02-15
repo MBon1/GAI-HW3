@@ -93,6 +93,7 @@ public class Movement_3 : MonoBehaviour
 
 
     [Header("Ray Casting")]
+    [SerializeField] float rayCastAngle = 30;
     [SerializeField] float avoidDistance = 1.0f;
     [SerializeField] float lookAhead = 2.0f;
     CircleCollider2D collider;
@@ -109,6 +110,9 @@ public class Movement_3 : MonoBehaviour
     [SerializeField] Material lrMaterial = null;
     [SerializeField] float lrWidth = 0.25f;
     [SerializeField] List<LineRenderer> lines = null;
+
+    [Header("HW3")]
+    public Movement_3 outsource;
 
 
     private void Awake()
@@ -156,7 +160,7 @@ public class Movement_3 : MonoBehaviour
             return;
         }
 
-        
+
         // Need to update character and target with their respective rigidbody values
         character = Rb2DToKinematic(characterRb);
         target = Rb2DToKinematic(targetRb);
@@ -183,6 +187,11 @@ public class Movement_3 : MonoBehaviour
             //steering = GetCollisionPredictionSteering();
             steering = CollisionPrediction();
             WriteBehavior("COLLISION PREDICTION");
+        }
+
+        if (obstacleAvoidance == ObstacleAvoidanceOperation.Outsource)
+        {
+            steering = GetOutsourcesSteering(targets[0]);
         }
 
         if (steering.linear == Vector3.zero)
@@ -676,7 +685,12 @@ public class Movement_3 : MonoBehaviour
         // If the distance between the character and target is less than
         // the path arrival radius
         // If so, set next node in path
-        if (Vector3.Distance(character.position, target.position) < pathArrivalRadius)
+        float dist = Vector3.Distance(character.position, target.position);
+        if (outsource != null)
+        {
+            dist = Vector3.Distance(outsource.transform.position, target.position);
+        }
+        if (dist < pathArrivalRadius)
         {
             if (forwardPathTraversal)
             {
@@ -691,6 +705,17 @@ public class Movement_3 : MonoBehaviour
         return GetArriveSteering();
     }
     #endregion
+
+
+    // Outsource Collision Detection
+    public SteeringOutput GetOutsourcesSteering(GameObject targetGO)
+    {
+        if (outsource == null)
+        {
+            return GetRayCastSteering(targetGO);
+        }
+        return outsource.GetRayCastSteering(targetGO);
+    }
 
 
     public Vector3 GetVectorFromAngle(float angle)
@@ -711,7 +736,7 @@ public class Movement_3 : MonoBehaviour
     }
 
     // Ray Casting
-    SteeringOutput GetRayCastSteering(GameObject targetGO)
+    public SteeringOutput GetRayCastSteering(GameObject targetGO)
     {
         SteeringOutput steering = new SteeringOutput();
 
@@ -719,13 +744,20 @@ public class Movement_3 : MonoBehaviour
         //     Determine collision
         Vector2 pos = this.transform.position;
         Vector2 dir = this.transform.up;
+
+        if (outsource != null)
+        {
+            pos = outsource.transform.position;
+            dir = outsource.transform.up;
+        }
+
         dir.Normalize();
 
         Vector2 aimDir = (dir * lookAhead).normalized;
         float startingAngle = GetAngleFromVectorFloat(aimDir);
 
-        Vector2 dir2 = GetVectorFromAngle(startingAngle + 30);
-        Vector2 dir3 = GetVectorFromAngle(startingAngle - 30);
+        Vector2 dir2 = GetVectorFromAngle(startingAngle + rayCastAngle);
+        Vector2 dir3 = GetVectorFromAngle(startingAngle - rayCastAngle);
 
         /*Debug.DrawLine(pos, pos + dir * lookAhead, Color.green);
         Debug.DrawLine(pos, pos + dir2 * lookAhead, Color.red);
@@ -736,7 +768,7 @@ public class Movement_3 : MonoBehaviour
 
         for (int i = 0; i < dirs.Length; i++)
         {
-            hits[i] = Physics2D.Raycast(pos, dirs[i], lookAhead);
+            hits[i] = Physics2D.Raycast(pos, dirs[i], lookAhead, LayerMask.NameToLayer("Formation Manager"));
         }
 
         Vector2 normals = Vector2.zero;
@@ -753,6 +785,7 @@ public class Movement_3 : MonoBehaviour
                     numNormals++;
                     //Debug.DrawLine(pos, hits[j].point, Color.red);
                     AddLine(pos, hits[j].point, Color.red);
+                    //Debug.Log("Ray " + j + " hit " + hits[j].transform.gameObject.name);
                 }
                 else
                 {
@@ -1249,6 +1282,7 @@ public class Movement_3 : MonoBehaviour
         None,
         RayCasting,
         ConeCheck,
-        CollisionPrediction
+        CollisionPrediction, 
+        Outsource
     }
 }

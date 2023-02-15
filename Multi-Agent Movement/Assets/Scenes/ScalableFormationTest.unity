@@ -545,7 +545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &476506248
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1245,6 +1245,8 @@ MonoBehaviour:
   numAgents: 12
   allAgents: []
   goalPos: {x: 0, y: 0, z: 0}
+  movement_3: {fileID: 761280732}
+  outsourceMovement: 1
   agentTargetPrefab: {fileID: 4654537302800718906, guid: 5336b0186b71b2b4cad0f2b95bbed371, type: 3}
   formation: 1
   agentWidth: 1
@@ -1276,7 +1278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: 11
-  obstacleAvoidance: 0
+  obstacleAvoidance: 1
   defaultOA: 0
   targets:
   - {fileID: 761280729}
@@ -1312,7 +1314,7 @@ MonoBehaviour:
     - {fileID: 1456823775}
   currentParam: 0
   predictTime: 0.1
-  pathArrivalRadius: 3
+  pathArrivalRadius: 4
   forwardPathTraversal: 1
   timeToTarget: 0.1
   alignmentTimeToTarget: 0.1
@@ -1323,15 +1325,17 @@ MonoBehaviour:
   arriveRadius: {fileID: 0}
   pathNodes: {fileID: 1197394656}
   behaviorText: {fileID: 0}
+  rayCastAngle: 30
   avoidDistance: 7
   lookAhead: 10
   coneAngle: 60
   coneLength: 10
   targetsRadi: 0.5
-  lrPrefab: {fileID: 0}
-  lrMaterial: {fileID: 0}
+  lrPrefab: {fileID: 1484012942565669961, guid: 07f30089f84a2cd4d8c7b62199000141, type: 3}
+  lrMaterial: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   lrWidth: 0.25
   lines: []
+  outsource: {fileID: 0}
 --- !u!50 &761280733
 Rigidbody2D:
   serializedVersion: 4
@@ -3411,7 +3415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &2127954009
 BoxCollider2D:
   m_ObjectHideFlags: 0
