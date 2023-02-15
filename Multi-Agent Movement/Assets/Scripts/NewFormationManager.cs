@@ -12,7 +12,7 @@ public class NewFormationManager : MonoBehaviour
 
     [Header("Target Positions")]
     public GameObject agentTargetPrefab;
-    public List<GameObject> agentTargetPositions = new List<GameObject>();
+    public Dictionary<GameObject, GameObject> agentTargetPositions = new Dictionary<GameObject, GameObject>();
 
     [Header("Formation Pattern")]
     public Formation formation = Formation.Line;
@@ -29,11 +29,11 @@ public class NewFormationManager : MonoBehaviour
         {
             allAgents.Add(Instantiate(agentPrefab, pos, Quaternion.identity));
             allAgents[i].name = "Agent " + i;
-            agentTargetPositions.Add(Instantiate(agentTargetPrefab, pos, Quaternion.identity));
-            agentTargetPositions[i].name = "Target " + i;
+            agentTargetPositions.Add(allAgents[i], Instantiate(agentTargetPrefab, pos, Quaternion.identity));
+            agentTargetPositions[allAgents[i]].name = "Target " + i;
 
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
-            movement.targets.Add(agentTargetPositions[i]);
+            movement.targets.Add(agentTargetPositions[allAgents[i]]);
         }
 
         FM = this;
@@ -60,8 +60,8 @@ public class NewFormationManager : MonoBehaviour
         int index = allAgents.IndexOf(agent);
         if (allAgents.Remove(agent))
         {
+            Destroy(agentTargetPositions[agent]);
             Destroy(agent);
-            Destroy(agentTargetPositions[index]);
         }
     }
 
@@ -120,7 +120,7 @@ public class NewFormationManager : MonoBehaviour
             float y = pos.y + radius * Mathf.Sin(Mathf.Deg2Rad * currentAngle);
             Vector2 newPos = new Vector2(x, y);
 
-            agentTargetPositions[i].transform.position = newPos;
+            agentTargetPositions[allAgents[i]].transform.position = newPos;
 
             // Check distance between agent's position and its taret's position
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
@@ -154,7 +154,7 @@ public class NewFormationManager : MonoBehaviour
             float y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
             Vector2 newPos = new Vector2(x, y);
 
-            agentTargetPositions[i].transform.position = newPos;
+            agentTargetPositions[allAgents[i]].transform.position = newPos;
 
             // Check distance between agent's position and its taret's position
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
@@ -205,7 +205,7 @@ public class NewFormationManager : MonoBehaviour
 
             Vector2 newPos = new Vector2(x, y);
 
-            agentTargetPositions[i].transform.position = newPos;
+            agentTargetPositions[allAgents[i]].transform.position = newPos;
 
             // Check distance between agent's position and its taret's position
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
