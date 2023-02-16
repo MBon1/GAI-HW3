@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewFormationManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class NewFormationManager : MonoBehaviour
     public float agentAttatchmentDistance = 0.5f;
     public bool usingTwoLevel = false;
 
+    [Header("Visualization")]
+    public Text formationText;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +36,16 @@ public class NewFormationManager : MonoBehaviour
         {
             allAgents.Add(Instantiate(agentPrefab, pos, Quaternion.identity));
             allAgents[i].name = "Agent " + i;
-            if (!usingTwoLevel)
+            /*if (!usingTwoLevel)
             {
                 agentTargetPositions.Add(allAgents[i], Instantiate(agentTargetPrefab, pos, Quaternion.identity));
             }
             else
             {
                 agentTargetPositions.Add(allAgents[i], Instantiate(agentVisibleTargetPrefab, pos, Quaternion.identity));
-            }
+            }*/
+            agentTargetPositions.Add(allAgents[i], Instantiate(agentVisibleTargetPrefab, pos, Quaternion.identity));
+
             agentTargetPositions[allAgents[i]].name = "Target " + i;
 
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
@@ -113,6 +118,19 @@ public class NewFormationManager : MonoBehaviour
         if (formation != lastFormation)
         {
             lastFormation = formation;
+
+            if (formation == Formation.Circle)
+            {
+                WriteFormation("Defensive Circle");
+            }
+            if (formation == Formation.Line)
+            {
+                WriteFormation("Line");
+            }
+            if (formation == Formation.Wedge)
+            {
+                WriteFormation("Wedge");
+            }
         }
     }
 
@@ -255,6 +273,13 @@ public class NewFormationManager : MonoBehaviour
                 allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
             }
         }
+    }
+
+    // Display the name of the given behavior
+    void WriteFormation(string behavior)
+    {
+        if (formationText != null)
+            formationText.text = behavior;
     }
 }
 

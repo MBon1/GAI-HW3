@@ -11,4 +11,12 @@ public class Init : MonoBehaviour
     {
         SceneManager.LoadScene("ObstacleTest");
     }
+    public void GoToScalableSim()
+    {
+        SceneManager.LoadScene("ScalableFormationTest");
+    }
+    public void GoTo2LevelSim()
+    {
+        SceneManager.LoadScene("New2LevelTest");
+    }
 }

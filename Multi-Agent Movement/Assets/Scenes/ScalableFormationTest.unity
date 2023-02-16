@@ -1248,9 +1248,12 @@ MonoBehaviour:
   movement_3: {fileID: 761280732}
   outsourceMovement: 1
   agentTargetPrefab: {fileID: 4654537302800718906, guid: 5336b0186b71b2b4cad0f2b95bbed371, type: 3}
+  agentVisibleTargetPrefab: {fileID: 3030316558236567764, guid: 3aa16dd51fac56c4a8148b70ee6709e3, type: 3}
   formation: 1
   agentWidth: 1
   agentAttatchmentDistance: 1.25
+  usingTwoLevel: 0
+  formationText: {fileID: 1136256564}
 --- !u!4 &761280731
 Transform:
   m_ObjectHideFlags: 0
@@ -2119,7 +2122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.29622638, b: 0.29622638, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.05882353, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3374,7 +3377,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Algorithm: '
+  m_Text: '     Shape: '
 --- !u!222 &2018826743
 CanvasRenderer:
   m_ObjectHideFlags: 0
