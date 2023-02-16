@@ -104,15 +104,19 @@ public class NewFormationManager : MonoBehaviour
         SetGoalPos();
         if (formation == Formation.Circle)
         {
-            UpdateAgentsScalableCircle(ignoreDetatchment);
+            UpdateAgentsCircle(ignoreDetatchment);
         }
         if (formation == Formation.Line)
         {
-            UpdateAgentsScalableLine(ignoreDetatchment);
+            UpdateAgentsLine(ignoreDetatchment);
         }
         if (formation == Formation.Wedge)
         {
-            UpdateAgentsScalableWedge(ignoreDetatchment);
+            UpdateAgentsWedge(ignoreDetatchment);
+        }
+        if (formation == Formation.ThreeWideLine)
+        {
+            UpdateAgentsThreeWideLine(ignoreDetatchment);
         }
 
         if (formation != lastFormation)
@@ -131,6 +135,10 @@ public class NewFormationManager : MonoBehaviour
             {
                 WriteFormation("Wedge");
             }
+            if (formation == Formation.ThreeWideLine)
+            {
+                WriteFormation("Three Wide Line");
+            }
         }
     }
 
@@ -145,7 +153,7 @@ public class NewFormationManager : MonoBehaviour
     }
 
 
-    void UpdateAgentsScalableCircle(bool ignoreDetatchment = false)
+    void UpdateAgentsCircle(bool ignoreDetatchment = false)
     {
         if (allAgents.Count == 1)
         {
@@ -182,7 +190,7 @@ public class NewFormationManager : MonoBehaviour
         }
     }
 
-    void UpdateAgentsScalableLine(bool ignoreDetatchment = false)
+    void UpdateAgentsLine(bool ignoreDetatchment = false)
     {
         if (allAgents.Count == 0)
         {
@@ -227,7 +235,7 @@ public class NewFormationManager : MonoBehaviour
         }
     }
 
-    void UpdateAgentsScalableWedge(bool ignoreDetatchment = false)
+    void UpdateAgentsWedge(bool ignoreDetatchment = false)
     {
         if (allAgents.Count == 0)
         {
@@ -288,6 +296,67 @@ public class NewFormationManager : MonoBehaviour
         }
     }
 
+    void UpdateAgentsThreeWideLine(bool ignoreDetatchment = false)
+    {
+        if (allAgents.Count == 0)
+        {
+            return;
+        }
+
+        float spacing = 2.0f;
+        //float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
+        float relativePos = 1;
+        if (usingTwoLevel)
+        {
+            relativePos = -spacing;
+        }
+        float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
+
+        Vector3 pos = transform.position;
+        float x = pos.x, y = pos.y, center_x = pos.x, center_y = pos.y;
+        for (int i = 0; i < allAgents.Count; i++)
+        {
+            if (i % 3 == 0 && i != 0)
+            {
+                relativePos -= 2.0f;
+            }
+            if (i % 3 == 0)
+            {
+                x = pos.x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle) * relativePos);
+                y = pos.y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle) * relativePos);
+                center_x = x;
+                center_y = y;
+            }else if(i % 3 == 1)
+            {
+                x = center_x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle -90) * 2);
+                y = center_y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle -90)  * 2);
+            }
+            else
+            {
+                x = center_x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle +90) * 2);
+                y = center_y + (Mathf.Sin(Mathf.Deg2Rad * forwardAngle +90) * 2);
+            }
+            Vector2 newPos = new Vector2(x, y);
+
+            agentTargetPositions[allAgents[i]].transform.position = newPos;
+
+            // Check distance between agent's position and its taret's position
+            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            if (usingTwoLevel)
+            {
+                movement.movement = Movement_3.MovementOperation.Arrive;
+                movement.obstacleAvoidance = Movement_3.ObstacleAvoidanceOperation.RayCasting;
+            }
+
+            bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
+            if (!usingTwoLevel && (ignoreDetatchment || notDetatched))
+            {
+                allAgents[i].transform.position = newPos;
+                allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
+            }
+        }
+    }
+
     // Display the name of the given behavior
     void WriteFormation(string behavior)
     {
@@ -304,5 +373,6 @@ public enum Formation
     None, 
     Circle,
     Line,
-    Wedge
+    Wedge,
+    ThreeWideLine
 }

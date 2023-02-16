@@ -2516,6 +2516,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Formation Trigger (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2448671812182274614, guid: 212436ece22625b4db5b674347a0ff3a, type: 3}
+      propertyPath: enterFormation
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 212436ece22625b4db5b674347a0ff3a, type: 3}
 --- !u!1 &1463195321
