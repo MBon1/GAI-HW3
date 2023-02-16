@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Init.unity
     guid: 51d2631278d1b414085369b965789296
+  - enabled: 1
+    path: Assets/Scenes/New2LevelTest.unity
+    guid: 541063857901ea741971c1b41d24c3bf
+  - enabled: 1
+    path: Assets/Scenes/ScalableFormationTest.unity
+    guid: e3e62559b3eac9a4eb53d2c1d1341f5d
   m_configObjects: {}

@@ -2142,7 +2142,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NONE
+  m_Text: Scalable Formation
 --- !u!222 &1285943434
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2867,7 +2867,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1612827587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.85, y: 1.81, z: 0}
+  m_LocalPosition: {x: 3.85, y: -0.04, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 607227533}
@@ -3377,7 +3377,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '     Shape: '
+  m_Text: 'Formation: '
 --- !u!222 &2018826743
 CanvasRenderer:
   m_ObjectHideFlags: 0

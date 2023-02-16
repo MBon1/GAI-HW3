@@ -19,7 +19,7 @@ public class Drive : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightBracket))
+        /*if (Input.GetKeyDown(KeyCode.RightBracket))
         {
             Time.timeScale = 8;
             Debug.LogWarning(Time.timeScale);
@@ -29,7 +29,7 @@ public class Drive : MonoBehaviour
         {
             Time.timeScale = 1;
             Debug.LogWarning(Time.timeScale);
-        }
+        }*/
     }
 
     void FixedUpdate()

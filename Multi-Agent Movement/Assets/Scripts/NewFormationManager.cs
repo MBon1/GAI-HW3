@@ -210,6 +210,12 @@ public class NewFormationManager : MonoBehaviour
 
             // Check distance between agent's position and its taret's position
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            if (usingTwoLevel)
+            {
+                movement.movement = Movement_3.MovementOperation.Arrive;
+                movement.obstacleAvoidance = Movement_3.ObstacleAvoidanceOperation.RayCasting;
+            }
+
             bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
             if (!usingTwoLevel && (ignoreDetatchment || notDetatched))
             {
@@ -238,6 +244,13 @@ public class NewFormationManager : MonoBehaviour
 
         for (int i = 0; i < allAgents.Count; i++)
         {
+            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
+            if (usingTwoLevel)
+            {
+                movement.movement = Movement_3.MovementOperation.Arrive;
+                movement.obstacleAvoidance = Movement_3.ObstacleAvoidanceOperation.RayCasting;
+            }
+
             if (i == 0)
             {
                 x = pos.x + (Mathf.Cos(Mathf.Deg2Rad * forwardAngle) * relativePos);
