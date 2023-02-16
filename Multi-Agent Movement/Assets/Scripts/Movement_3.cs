@@ -784,7 +784,7 @@ public class Movement_3 : MonoBehaviour
                     normals += hits[j].normal;
                     numNormals++;
                     //Debug.DrawLine(pos, hits[j].point, Color.red);
-                    AddLine(pos, hits[j].point, Color.red);
+                    AddLine(pos, hits[j].point, new Color(1,0,0,0.5f));
                     //Debug.Log("Ray " + j + " hit " + hits[j].transform.gameObject.name);
                 }
                 else
@@ -795,7 +795,7 @@ public class Movement_3 : MonoBehaviour
             else
             {
                 //Debug.DrawLine(pos, pos + dirs[j] * lookAhead, Color.green);
-                AddLine(pos, pos + dirs[j] * lookAhead, Color.green);
+                AddLine(pos, pos + dirs[j] * lookAhead, new Color(0, 1, 0, 0.5f));
             }
         }
 

@@ -108,8 +108,9 @@ MonoBehaviour:
   arriveRadius: {fileID: 0}
   pathNodes: {fileID: 0}
   behaviorText: {fileID: 0}
-  avoidDistance: 7
-  lookAhead: 10
+  rayCastAngle: 30
+  avoidDistance: 1.5
+  lookAhead: 3
   coneAngle: 60
   coneLength: 10
   targetsRadi: 0.5

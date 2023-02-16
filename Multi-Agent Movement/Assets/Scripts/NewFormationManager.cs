@@ -14,6 +14,7 @@ public class NewFormationManager : MonoBehaviour
 
     [Header("Target Positions")]
     public GameObject agentTargetPrefab;
+    public GameObject agentVisibleTargetPrefab;
     public Dictionary<GameObject, GameObject> agentTargetPositions = new Dictionary<GameObject, GameObject>();
 
     [Header("Formation Pattern")]
@@ -21,6 +22,7 @@ public class NewFormationManager : MonoBehaviour
     Formation lastFormation = Formation.None;
     public float agentWidth = 1;
     public float agentAttatchmentDistance = 0.5f;
+    public bool usingTwoLevel = false;
 
 
     // Start is called before the first frame update
@@ -31,11 +33,23 @@ public class NewFormationManager : MonoBehaviour
         {
             allAgents.Add(Instantiate(agentPrefab, pos, Quaternion.identity));
             allAgents[i].name = "Agent " + i;
-            agentTargetPositions.Add(allAgents[i], Instantiate(agentTargetPrefab, pos, Quaternion.identity));
+            if (!usingTwoLevel)
+            {
+                agentTargetPositions.Add(allAgents[i], Instantiate(agentTargetPrefab, pos, Quaternion.identity));
+            }
+            else
+            {
+                agentTargetPositions.Add(allAgents[i], Instantiate(agentVisibleTargetPrefab, pos, Quaternion.identity));
+            }
             agentTargetPositions[allAgents[i]].name = "Target " + i;
 
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
             movement.targets.Add(agentTargetPositions[allAgents[i]]);
+            if (usingTwoLevel)
+            {
+                movement.movement = Movement_3.MovementOperation.Arrive;
+                movement.obstacleAvoidance = Movement_3.ObstacleAvoidanceOperation.RayCasting;
+            }
         }
 
         if (numAgents > 0 && outsourceMovement)
@@ -160,6 +174,10 @@ public class NewFormationManager : MonoBehaviour
         float spacing = 2.0f;
         //float relativePos = ((float)(allAgents.Count - 1) * spacing) / 2.0f;
         float relativePos = 1;
+        if (usingTwoLevel)
+        {
+            relativePos = -spacing;
+        }
         float forwardAngle = this.transform.rotation.eulerAngles.z + 90.0f;
 
         Vector3 pos = transform.position;
@@ -175,7 +193,7 @@ public class NewFormationManager : MonoBehaviour
             // Check distance between agent's position and its taret's position
             Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
             bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
-            if (ignoreDetatchment || notDetatched)
+            if (!usingTwoLevel && (ignoreDetatchment || notDetatched))
             {
                 allAgents[i].transform.position = newPos;
                 allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
@@ -231,9 +249,7 @@ public class NewFormationManager : MonoBehaviour
             agentTargetPositions[allAgents[i]].transform.position = newPos;
 
             // Check distance between agent's position and its taret's position
-            Movement_3 movement = allAgents[i].GetComponent<Movement_3>();
-            bool notDetatched = !movement.Detatch(agentAttatchmentDistance);
-            if (ignoreDetatchment || notDetatched)
+            if (ignoreDetatchment)
             {
                 allAgents[i].transform.position = newPos;
                 allAgents[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, forwardAngle - 90));
